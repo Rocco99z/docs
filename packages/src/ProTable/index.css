@@ -1,0 +1,10 @@
+.toolbar {
+  height: 80px;
+  padding: 16px 0;
+  display: flex;
+  
+}
+
+.toolbar .ant-tabs-nav::before{
+   border-bottom: none !important;
+  }

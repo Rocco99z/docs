@@ -1,0 +1,62 @@
+{
+  "name": "@simba/components",
+  "version": "0.1.8",
+  "description": "simba internal components",
+  "license": "MIT",
+  "module": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "files": [
+    "dist",
+    "es",
+    "lib"
+  ],
+  "scripts": {
+    "build": "father build",
+    "build:watch": "father dev",
+    "dev": "dumi dev",
+    "docs:build": "dumi build",
+    "doctor": "father doctor",
+    "logout": "npm logout --registry=https://packages.aliyun.com/6145b2b428003bdc3daa97c8/npm/npm-registry",
+    "prepare": "husky install && dumi setup",
+    "release": "npm publish --tag latest",
+    "setNpm": "npm config set registry https://registry.npmjs.org/",
+    "setRegistry": "npm config set registry=https://packages.aliyun.com/6145b2b428003bdc3daa97c8/npm/npm-registry/",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "antd": "^5.10.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.7.2",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
+    "@umijs/lint": "^4.0.83",
+    "dumi": "^2.2.12",
+    "eslint": "^8.51.0",
+    "father": "^4.3.5",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "prettier-plugin-packagejson": "^2.4.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "stylelint": "^15.10.3"
+  },
+  "peerDependencies": {
+    "@ant-design/icons": ">=5.0.1",
+    "antd": ">=5.3.0",
+    "lodash": ">=4.17.21",
+    "react": ">=18.2.0",
+    "react-dom": ">=18.2.0"
+  },
+  "publishConfig": {
+    "registry": "https://packages.aliyun.com/6145b2b428003bdc3daa97c8/npm/npm-registry/"
+  },
+  "authors": [
+    "wangzun0334"
+  ]
+}
