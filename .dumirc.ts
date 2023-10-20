@@ -3,8 +3,8 @@ import path from 'path';
 import style from './docs/siteIndexStyle';
 
 export default defineConfig({
-  base: '/docs',
-  publicPath: '/docs/',
+  base: 'docs',
+  publicPath: '',
   apiParser: {},
   outputPath: 'docs-dist',
   favicons: [
