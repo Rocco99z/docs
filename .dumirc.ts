@@ -4,7 +4,7 @@ import style from './docs/siteIndexStyle';
 
 export default defineConfig({
   // base: '/docs-dist',
-  publicPath: '/docs-dist/',
+  // publicPath: '/docs-dist/',
   apiParser: {},
   outputPath: 'docs-dist',
   favicons: [
