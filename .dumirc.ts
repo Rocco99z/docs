@@ -30,7 +30,7 @@ export default defineConfig({
       },
       {
         title: '组件',
-        link: '/components/form-fields',
+        link: '/components/base-form',
       },
       {
         title: '前端规范',

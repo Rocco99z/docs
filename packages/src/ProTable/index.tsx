@@ -1,10 +1,8 @@
 /* eslint-disable indent */
-import React, { useState, useMemo, useCallback } from "react";
-import { Table, Space, Button, message, Tabs, Upload } from "antd";
-import { ExportOutlined, ImportOutlined } from "@ant-design/icons";
-import exportData from "./utils";
-import type { TableProps, TabsProps, UploadProps } from "antd";
-import "./index.css";
+import type { TableProps, TabsProps, UploadProps } from 'antd';
+import { Space, Table, Tabs } from 'antd';
+import React, { useMemo } from 'react';
+import './index.css';
 
 interface ProTableProps extends TableProps<any> {
   className?: string;
@@ -35,7 +33,7 @@ interface ProTableProps extends TableProps<any> {
     /**
      * @description 标签页配置
      */
-    tabs?: Omit<TabsProps, "tabBarExtraContent" | "renderTabBar">;
+    tabs?: Omit<TabsProps, 'tabBarExtraContent' | 'renderTabBar'>;
     /**
      * @description 工具区右侧 额外的配置
      */
@@ -59,21 +57,21 @@ const ProTable: React.FC<ProTableProps> = (props: ProTableProps) => {
 
     if (index) {
       tempColumns.push({
-        fixed: "left",
+        fixed: 'left',
         width: 48,
-        dataIndex: "index",
-        key: "index",
+        dataIndex: 'index',
+        key: 'index',
         render: (text: string, record: any, index: number) => {
           return (
             <div
               style={{
-                borderRadius: "50%",
+                borderRadius: '50%',
                 backgroundColor: `rgba(0, 0, 0,${1 - index / 100})`,
-                width: "18px",
-                height: "18px",
-                color: "#fff",
-                textAlign: "center",
-                lineHeight: "18px",
+                width: '18px',
+                height: '18px',
+                color: '#fff',
+                textAlign: 'center',
+                lineHeight: '18px',
               }}
             >
               {index + 1}
@@ -83,14 +81,18 @@ const ProTable: React.FC<ProTableProps> = (props: ProTableProps) => {
       });
     }
     if (propsColumns) {
-      tempColumns.push(...propsColumns);
+      const temp = propsColumns?.map((item) => {
+        if (!item.render) item.render = (text) => (text ? text : '--');
+        return item;
+      });
+      tempColumns.push(...temp);
     }
     if (action) {
       tempColumns.push({
-        fixed: "right",
-        title: "操作",
-        key: "option",
-        align: "center",
+        fixed: 'right',
+        title: '操作',
+        key: 'option',
+        align: 'center',
         render: (text: string, record: any, index: number) => [
           <Space key={`space${index}`}>{action(record)}</Space>,
         ],
@@ -99,56 +101,56 @@ const ProTable: React.FC<ProTableProps> = (props: ProTableProps) => {
     return tempColumns;
   }, [propsColumns, index, rest.dataSource, rest.pagination, action]);
 
-  // 导入
-  const [importLoading, setImportLoading] = useState(false);
-  const importProps: UploadProps = {
-    showUploadList: false,
-    ...toolBar?.importProps,
-    onChange(info) {
-      toolBar?.importProps?.onChange?.(info);
-      setImportLoading(true);
-      if (info.file.status === "done") {
-        setImportLoading(false);
-        message.success(`${info.file.name} 导入成功`);
-      } else if (info.file.status === "error") {
-        setImportLoading(false);
-        message.error(`${info.file.name} 导入失败`);
-      }
-    },
-  };
-  // 导出
-  const [exportLoading, setExportLoading] = useState(false);
-  const handleExport = useCallback(() => {
-    if (exportLoading) return;
-    setExportLoading(true);
-    return toolBar?.exportProps
-      ?.api()
-      .then((res) => {
-        exportData(res, toolBar?.exportProps?.fileName ?? "导出数据");
-        setExportLoading(false);
-        message.success("导出成功");
-      })
-      .catch(() => {
-        setExportLoading(false);
-        message.error("导出失败");
-      });
-  }, [toolBar?.exportProps]);
+  // // 导入
+  // const [importLoading, setImportLoading] = useState(false);
+  // const importProps: UploadProps = {
+  //   showUploadList: false,
+  //   ...toolBar?.importProps,
+  //   onChange(info) {
+  //     toolBar?.importProps?.onChange?.(info);
+  //     setImportLoading(true);
+  //     if (info.file.status === 'done') {
+  //       setImportLoading(false);
+  //       message.success(`${info.file.name} 导入成功`);
+  //     } else if (info.file.status === 'error') {
+  //       setImportLoading(false);
+  //       message.error(`${info.file.name} 导入失败`);
+  //     }
+  //   },
+  // };
+  // // 导出
+  // const [exportLoading, setExportLoading] = useState(false);
+  // const handleExport = useCallback(() => {
+  //   if (exportLoading) return;
+  //   setExportLoading(true);
+  //   return toolBar?.exportProps
+  //     ?.api()
+  //     .then((res) => {
+  //       exportData(res, toolBar?.exportProps?.fileName ?? '导出数据');
+  //       setExportLoading(false);
+  //       message.success('导出成功');
+  //     })
+  //     .catch(() => {
+  //       setExportLoading(false);
+  //       message.error('导出失败');
+  //     });
+  // }, [toolBar?.exportProps]);
 
   return (
     <div className={className}>
       {toolBar && (
         <div className="toolbar">
-          <div style={{ width: "60%" }}>
+          <div style={{ width: '60%' }}>
             {toolBar?.tabs && <Tabs {...toolBar?.tabs} />}
           </div>
           <Space
             style={{
-              width: "40%",
-              justifyContent: "flex-end",
-              overflow: "hidden",
+              width: '40%',
+              justifyContent: 'flex-end',
+              overflow: 'hidden',
             }}
           >
-            {toolBar?.importProps && (
+            {/* {toolBar?.importProps && (
               <Upload {...importProps}>
                 <Button
                   icon={<ExportOutlined />}
@@ -167,11 +169,12 @@ const ProTable: React.FC<ProTableProps> = (props: ProTableProps) => {
               >
                 导出
               </Button>
-            )}
+            )} */}
             {toolBar?.extraContent}
           </Space>
         </div>
       )}
+      {/* @ts-ignore */}
       <Table rowKey={rowKey} columns={columns} {...rest} />
     </div>
   );

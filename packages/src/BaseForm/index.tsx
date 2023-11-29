@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
-import { Button, Form, Space } from "antd";
-import type { FormProps } from "antd";
+import type { FormProps } from 'antd';
+import { Button, Form, Space } from 'antd';
+import React, { useMemo } from 'react';
 
 export type SearchConfig = {
   /** @name 重置按钮的文本 */
@@ -44,7 +44,7 @@ export interface BaseFormProps extends FormProps {
 
 const SubmitterWrapper: React.FC<any> = (props: any) => {
   return (
-    <Form.Item style={{ display: "flex", justifyContent: "flex-end" }}>
+    <Form.Item style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <Space>{props.children}</Space>
     </Form.Item>
   );
@@ -59,7 +59,7 @@ const BaseForm: React.FC<BaseFormProps> = (props: BaseFormProps) => {
     if (submitter.render) {
       return <SubmitterWrapper>{submitter.render()}</SubmitterWrapper>;
     }
-    const { cancelText = "取消", submitText = "确认" } =
+    const { cancelText = '取消', submitText = '确认' } =
       submitter.searchConfig ?? {};
     return (
       <SubmitterWrapper>
@@ -88,9 +88,9 @@ const BaseForm: React.FC<BaseFormProps> = (props: BaseFormProps) => {
           </Button>
           <Button
             type="primary"
-            htmlType={"submit"}
+            htmlType={'submit'}
             loading={loading}
-            style={{ backgroundColor: "#1677ff" }}
+            style={{ backgroundColor: '#1677ff' }}
           >
             确认
           </Button>

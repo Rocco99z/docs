@@ -1,0 +1,10 @@
+
+.filter-more{
+  padding-top:6px;
+  color:#0067f1;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  cursor: pointer;
+  margin-left:20px;
+}
