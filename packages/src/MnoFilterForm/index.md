@@ -7,7 +7,7 @@ toc: none
 
 # MnoFilterForm - MNO平台筛选表单
 
-<p>mno平台筛选表单 点击更多查询出现弹框 外置查询和弹框查询同步  重置也同步 ，更多查询弹框会再点击待loading消失后自动关闭</p>
+<p>mno平台筛选表单 点击更多查询出现弹框 外置查询和弹框查询、重置、from实例、initvalues、labelWidth同步 ，更多查询弹框会再点击待loading消失后自动关闭</p>
 
 # 基本使用
 

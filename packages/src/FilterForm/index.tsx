@@ -17,7 +17,7 @@ interface FilterFormProps {
   /**
    *  @description 是否展开 默认关闭
    */
-  collapsed?: Boolean;
+  collapsed?: boolean;
   /**
    * @description label 宽度
    * @default 70

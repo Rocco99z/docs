@@ -68,6 +68,7 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
     children,
     labelAlign,
     externalForm,
+    initialValues,
     width,
     loading,
     form,
@@ -96,6 +97,7 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
     <BaseForm
       {...rest}
       form={form}
+      initialValues={initialValues}
       onFinish={(val: any) => {
         setFormValue((pre) => ({ ...pre, externalFormval: val }));
         onFinish({
@@ -124,8 +126,10 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
                   ...val,
                 });
               }}
+              initialValues={initialValues}
               open={openModal}
               width={width}
+              labelWidth={labelWidth}
               trigger={
                 <div className="filter-more" onClick={() => setOpenModal(true)}>
                   <img src={FilterIcon} width={20} />
@@ -138,7 +142,7 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
                 render: () => (
                   <>
                     <Button
-                      onClick={(e) => {
+                      onClick={() => {
                         if (loading) return;
                         setOpenModal(false);
                       }}

@@ -1,6 +1,6 @@
 {
   "name": "@simba/components",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "simba internal components",
   "license": "MIT",
   "module": "dist/cjs/index.js",
