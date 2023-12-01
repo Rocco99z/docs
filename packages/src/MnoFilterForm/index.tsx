@@ -2,7 +2,7 @@
 
 import { BaseForm } from '@simba/components';
 import type { FormProps } from 'antd';
-import { Button, Col, Row, Space } from 'antd';
+import { Button, Col, Modal, Row, Space } from 'antd';
 import React, {
   JSXElementConstructor,
   ReactElement,
@@ -12,6 +12,8 @@ import React, {
 import FilterModal from './ModalFrom';
 import FilterIcon from './filter.svg';
 import './index.css';
+import type { FormInstance } from 'antd';
+import { isArray } from 'lodash';
 export interface FilterFormProps {
   className?: string;
 
@@ -20,6 +22,11 @@ export interface FilterFormProps {
    * @default
    */
   width: number;
+  /**
+   * @description 表单实例
+   * @default
+   */
+  form: FormInstance<any>;
   /**
    * @description 正常内容搜索项
    */
@@ -32,10 +39,15 @@ export interface FilterFormProps {
   children: React.ReactNode;
 
   /**
-   * @description label 宽度
+   * @description  外置搜索项label 宽度
    * @default 70
    */
   labelWidth?: string | number;
+  /**
+   * @description  更多查询搜索项label 宽度
+   * @default 70
+   */
+  modalLabelWidth?: string | number;
   /**
    * @description 查询按钮loading
    * @default
@@ -69,6 +81,7 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
     labelAlign,
     externalForm,
     initialValues,
+    modalLabelWidth,
     width,
     loading,
     form,
@@ -83,15 +96,43 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
   });
 
   const tempExternalForm = useMemo(() => {
+    let tempEle: any = [];
     if (externalForm?.props?.children) {
-      return externalForm?.props?.children?.map((element: any) => {
-        return React.cloneElement(element, { span: 12 });
-      });
-    } else
-      return React.cloneElement(externalForm, {
+      const externalFormEle = externalForm?.props?.children?.map(
+        (element: any) => {
+          return React.cloneElement(element, {
+            span: 12,
+            labelCol: { span: modalLabelWidth / 10 },
+          });
+        },
+      );
+      tempEle.push(externalFormEle);
+    } else {
+      const externalFormEle = React.cloneElement(externalForm, {
         span: 12,
+        labelCol: { span: modalLabelWidth / 10 },
       });
-  }, [externalForm]);
+      tempEle.push(externalFormEle);
+    }
+
+    if (isArray(children)) {
+      const childrenEle = children?.map((element: any) => {
+        return React.cloneElement(element, {
+          span: 12,
+          labelCol: { span: modalLabelWidth / 10 },
+        });
+      });
+      tempEle.push(childrenEle);
+    } else {
+      const childrenEle = React.cloneElement(children, {
+        span: 12,
+        labelCol: { span: modalLabelWidth / 10 },
+      });
+      tempEle.push(childrenEle);
+    }
+
+    return tempEle;
+  }, [externalForm, children]);
 
   return (
     <BaseForm
@@ -116,57 +157,53 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
 
         {children && (
           <Col>
-            <FilterModal
-              form={form}
-              onFinish={(val: any) => {
-                setFormValue((pre) => ({ ...pre, modalFormValue: val }));
-                onFinish({
-                  ...formValue.externalFormval,
-                  ...formValue.modalFormValue,
-                  ...val,
-                });
-              }}
-              initialValues={initialValues}
+            <div className="filter-more" onClick={() => setOpenModal(true)}>
+              <img src={FilterIcon} width={20} />
+              更多查询
+            </div>
+            <Modal
+              onCancel={() => setOpenModal(false)}
+              title="更过查询"
               open={openModal}
               width={width}
-              labelWidth={labelWidth}
-              trigger={
-                <div className="filter-more" onClick={() => setOpenModal(true)}>
-                  <img src={FilterIcon} width={20} />
-                  更多查询
-                </div>
+              footer={
+                <>
+                  <Button
+                    onClick={() => {
+                      if (loading) return;
+                      setOpenModal(false);
+                    }}
+                  >
+                    取消
+                  </Button>
+                  <Button
+                    htmlType="reset"
+                    onClick={() => {
+                      if (loading) return;
+                      form?.resetFields();
+                      onReset();
+                    }}
+                  >
+                    重置
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType={'submit'}
+                    loading={loading}
+                    disabled={loading}
+                    style={{ backgroundColor: '#1677ff' }}
+                    onClick={() => {
+                      if (loading) return;
+                      form?.submit();
+                    }}
+                  >
+                    确认
+                  </Button>
+                </>
               }
-              title="更过查询"
-              loading={loading}
-              submitter={{
-                render: () => (
-                  <>
-                    <Button
-                      onClick={() => {
-                        if (loading) return;
-                        setOpenModal(false);
-                      }}
-                    >
-                      取消
-                    </Button>
-                    <Button htmlType="reset" onClick={onReset}>
-                      重置
-                    </Button>
-                    <Button
-                      type="primary"
-                      htmlType={'submit'}
-                      loading={loading}
-                      style={{ backgroundColor: '#1677ff' }}
-                    >
-                      确认
-                    </Button>
-                  </>
-                ),
-              }}
             >
-              {tempExternalForm}
-              {children}
-            </FilterModal>
+              <Row>{tempExternalForm}</Row>
+            </Modal>
           </Col>
         )}
         <Col flex="auto">

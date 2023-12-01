@@ -15,10 +15,12 @@ toc: none
 
 ## API
 
-| Name         | Description                                | Type             | Default |
-| ------------ | ------------------------------------------ | ---------------- | ------- |
-| externalForm | 外部正常内容搜索项                         | ` boolean`       | false   |
-| children     | 更多查询弹框内容搜索项                     |                  |         |
-| loading      | loading                                    |                  |         |
-| onFinish     | 提交表单事件 value为内置和弹框所有表单内容 | (value) => void; |         |
-| width        | 弹框宽度                                   |                  |
+| Name            | Description                                | Type             | Default |
+| --------------- | ------------------------------------------ | ---------------- | ------- |
+| externalForm    | 外部正常内容搜索项                         | ` boolean`       | false   |
+| children        | 更多查询弹框内容搜索项                     |                  |         |
+| loading         | loading                                    |                  |         |
+| onFinish        | 提交表单事件 value为内置和弹框所有表单内容 | (value) => void; |         |
+| width           | 弹框宽度                                   |                  |
+| modalLabelWidth | modaol筛选labelwidth                       |                  |
+| labelWidth      | 外置筛选labelwidth                         |                  | 70      |
