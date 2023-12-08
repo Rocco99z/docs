@@ -6,10 +6,10 @@ import { Button, Col, Modal, Row, Space } from 'antd';
 import React, {
   JSXElementConstructor,
   ReactElement,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
-import FilterModal from './ModalFrom';
 import FilterIcon from './filter.svg';
 import './index.css';
 import type { FormInstance } from 'antd';
@@ -67,6 +67,9 @@ export interface FilterFormProps {
    * @description 重置事件
    */
   onReset: () => void;
+
+  /** 确定后是否关闭 */
+  confirmResult: string;
 }
 
 const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
@@ -85,11 +88,15 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
     width,
     loading,
     form,
+    confirmResult,
     ...rest
   } = props;
 
   const [openModal, setOpenModal] = useState(false);
 
+  useEffect(() => {
+    if (confirmResult?.split('_')?.[0] === '200') setOpenModal(false);
+  }, [confirmResult]);
   const [formValue, setFormValue] = useState({
     externalFormval: {},
     modalFormValue: {},
@@ -156,18 +163,21 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
         {externalForm}
 
         {children && (
-          <Col>
+          <>
             <div className="filter-more" onClick={() => setOpenModal(true)}>
               <img src={FilterIcon} width={20} />
               更多查询
             </div>
             <Modal
-              onCancel={() => setOpenModal(false)}
-              title="更过查询"
+              className="mno-filter-modal"
+              onCancel={() => {
+                setOpenModal(false);
+              }}
+              title="更多查询"
               open={openModal}
               width={width}
               footer={
-                <>
+                <div className="modal-footer">
                   <Button
                     onClick={() => {
                       if (loading) return;
@@ -199,12 +209,12 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
                   >
                     确认
                   </Button>
-                </>
+                </div>
               }
             >
-              <Row>{tempExternalForm}</Row>
+              <Row gutter={[5, 2]}>{tempExternalForm}</Row>
             </Modal>
-          </Col>
+          </>
         )}
         <Col flex="auto">
           <Space

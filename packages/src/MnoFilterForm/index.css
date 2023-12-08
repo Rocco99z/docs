@@ -8,3 +8,15 @@
   cursor: pointer;
   margin-left:20px;
 }
+
+.modal-footer{
+  width:100%;
+  display:flex;
+  justify-content:flex-end;
+}
+
+
+.mno-filter-modal .ant-form-item-control {
+  width:100px;
+  
+}
