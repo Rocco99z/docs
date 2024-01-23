@@ -12,5 +12,6 @@ export {
   FormSelect,
 } from './src/FormFields';
 export { default as MnoFilterForm } from './src/MnoFilterForm';
+export { default as MnoTable } from './src/MnoTable';
 export { default as ModalForm } from './src/ModalForm';
 export { default as ProTable } from './src/ProTable';

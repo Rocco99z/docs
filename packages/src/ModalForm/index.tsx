@@ -4,12 +4,12 @@ import React, {
   useCallback,
   useRef,
   useEffect,
-} from "react";
-import { Form, Modal } from "antd";
-import { BaseForm } from "@simba/components";
+} from 'react';
+import { Form, Modal } from 'antd';
+import { BaseForm } from '@simba/components';
 
-import type { ModalProps, FormProps } from "antd";
-import type { SearchConfig } from "../BaseForm";
+import type { ModalProps, FormProps } from 'antd';
+import type { SearchConfig } from '../BaseForm';
 
 interface ModalFormProps {
   className?: string;
@@ -41,7 +41,7 @@ interface ModalFormProps {
    */
   onFinish?: (value: any) => void;
   /** @name 受控的打开关闭 */
-  open?: ModalProps["open"];
+  open?: ModalProps['open'];
   /** @name 打开关闭的事件 */
   onOpenChange?: (open: boolean) => void;
   /**
@@ -49,7 +49,7 @@ interface ModalFormProps {
    *
    * @name 弹框的属性
    */
-  modalProps?: Omit<ModalProps, "visible">;
+  modalProps?: Omit<ModalProps, 'visible'>;
   /**
    * @description 表单底部提交按钮和取消按钮
    * @example 不显示按钮
@@ -64,7 +64,7 @@ interface ModalFormProps {
 }
 
 const ModalForm: React.FC<ModalFormProps & FormProps> = (
-  props: ModalFormProps & FormProps
+  props: ModalFormProps & FormProps,
 ) => {
   const {
     className,
@@ -95,7 +95,7 @@ const ModalForm: React.FC<ModalFormProps & FormProps> = (
     if (!trigger) return null;
 
     return React.cloneElement(trigger, {
-      key: "trigger",
+      key: 'trigger',
       ...trigger.props,
       onClick: async (e: any) => {
         setOpen(!open);
@@ -113,7 +113,7 @@ const ModalForm: React.FC<ModalFormProps & FormProps> = (
   // 提交处理
   const onFinishHandle = useCallback(
     async (values: any) => onFinish?.(values),
-    [onFinish, setOpen]
+    [onFinish, setOpen],
   );
   return (
     <>
@@ -137,11 +137,10 @@ const ModalForm: React.FC<ModalFormProps & FormProps> = (
         }}
       >
         <BaseForm
-          style={{ paddingTop: "15px" }}
+          style={{ paddingTop: '15px' }}
           {...rest}
           submitter={submitter}
-          form={formRef}
-          layout="vertical"
+          form={rest.form || formRef}
           onFinish={onFinishHandle}
           loading={loading}
           onCancel={(e) => {

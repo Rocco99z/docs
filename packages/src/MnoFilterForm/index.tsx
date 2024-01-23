@@ -10,7 +10,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import FilterIcon from './filter.svg';
+import { FilterIcon } from './filter';
 import './index.css';
 import type { FormInstance } from 'antd';
 import { isArray } from 'lodash';
@@ -159,15 +159,18 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
       submitter={false}
       className={className}
     >
-      <Row gutter={[5, 2]}>
+      <Row gutter={[5, 2]} className='external-row'>
         {externalForm}
 
         {children && (
           <>
-            <div className="filter-more" onClick={() => setOpenModal(true)}>
-              <img src={FilterIcon} width={20} />
+            <Button
+              icon={<FilterIcon />}
+              onClick={() => setOpenModal(true)}
+              style={{ marginLeft: '12px' }}
+            >
               更多查询
-            </div>
+            </Button>
             <Modal
               className="mno-filter-modal"
               onCancel={() => {
@@ -178,37 +181,44 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
               width={width}
               footer={
                 <div className="modal-footer">
-                  <Button
-                    onClick={() => {
-                      if (loading) return;
-                      setOpenModal(false);
-                    }}
-                  >
-                    取消
-                  </Button>
-                  <Button
-                    htmlType="reset"
-                    onClick={() => {
-                      if (loading) return;
-                      form?.resetFields();
-                      onReset();
-                    }}
-                  >
-                    重置
-                  </Button>
-                  <Button
-                    type="primary"
-                    htmlType={'submit'}
-                    loading={loading}
-                    disabled={loading}
-                    style={{ backgroundColor: '#1677ff' }}
-                    onClick={() => {
-                      if (loading) return;
-                      form?.submit();
-                    }}
-                  >
-                    确认
-                  </Button>
+                  <div>
+                    <Button
+                      style={{ width: '88px' }}
+                      htmlType="reset"
+                      onClick={() => {
+                        if (loading) return;
+                        form?.resetFields();
+                        onReset();
+                      }}
+                    >
+                      重置
+                    </Button>
+                  </div>
+                  <div style={{ display: 'flex' }}>
+                    <Button
+                      style={{ width: '88px' }}
+                      onClick={() => {
+                        if (loading) return;
+                        setOpenModal(false);
+                      }}
+                    >
+                      取消
+                    </Button>
+
+                    <Button
+                      type="primary"
+                      htmlType={'submit'}
+                      loading={loading}
+                      disabled={loading}
+                      style={{ backgroundColor: '#1677ff', width: '88px' }}
+                      onClick={() => {
+                        if (loading) return;
+                        form?.submit();
+                      }}
+                    >
+                      查询
+                    </Button>
+                  </div>
                 </div>
               }
             >
@@ -233,7 +243,6 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
             <Button
               type="primary"
               htmlType="submit"
-              loading={loading}
               style={{ backgroundColor: '#1677ff' }}
             >
               查询

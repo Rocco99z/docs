@@ -5,7 +5,6 @@ import {
   FormDatePicker,
 } from '@simba/components';
 import { Form } from 'antd';
-import { useState } from 'react';
 export default () => {
   const [form] = Form.useForm();
 
@@ -23,9 +22,8 @@ export default () => {
       externalForm={
         <>
           <FormInput
-            placeholder="请输入iccid"
+            placeholder="iccid"
             validateTrigger={['onChange', 'onSubmit']}
-            label="iccid"
             name="icc222id"
             span={6}
             key={1}
@@ -46,11 +44,13 @@ export default () => {
         validateTrigger={['onChange', 'onSubmit']}
         label="qqqq"
         name="qqqqq"
+        span={12}
       />
       <FormSelect
         placeholder="请选择"
         label="SIM卡是否启用"
         name="isEnable"
+        span={12}
         options={[
           { value: 1, label: '是' },
           { value: 2, label: '否' },
@@ -58,6 +58,7 @@ export default () => {
       />
       <FormDatePicker.RangePicker
         showTime
+        span={12}
         name="creatTime"
         placeholder={['请选择添加时间', '请选择添加时间']}
         label="添加时间"
