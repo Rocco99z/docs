@@ -159,7 +159,7 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
       submitter={false}
       className={className}
     >
-      <Row gutter={[5, 2]} className='external-row'>
+      <Row gutter={[5, 2]} className="external-row">
         {externalForm}
 
         {children && (
@@ -210,7 +210,11 @@ const MnoFilterForm: React.FC<FilterFormProps & FormProps> = (
                       htmlType={'submit'}
                       loading={loading}
                       disabled={loading}
-                      style={{ backgroundColor: '#1677ff', width: '88px' }}
+                      style={{
+                        backgroundColor: '#1677ff',
+                        width: '88px',
+                        marginLeft: '10px',
+                      }}
                       onClick={() => {
                         if (loading) return;
                         form?.submit();

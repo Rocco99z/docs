@@ -1,7 +1,15 @@
 /* eslint-disable indent*/
 import type { TableProps, TabsProps } from 'antd';
-import { Space, Table, Tabs, Dropdown, Button, InputNumber } from 'antd';
-import React, { useEffect, useMemo, useState } from 'react';
+import {
+  Space,
+  Table,
+  Tabs,
+  Dropdown,
+  Button,
+  InputNumber,
+  Pagination,
+} from 'antd';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   LeftOutlined,
   VerticalRightOutlined,
@@ -11,7 +19,7 @@ import {
   ReloadOutlined,
 } from '@ant-design/icons';
 import './index.css';
-import { isNull } from 'lodash';
+import { isNull, throttle } from 'lodash';
 
 interface ProTableProps extends TableProps<any> {
   className?: string;
@@ -25,10 +33,7 @@ interface ProTableProps extends TableProps<any> {
    * @description 分页器 重置按钮事件
    */
   onReset: () => void;
-  /**
-   * @description 分页器 初始pagesize
-   */
-  initpageSize: number;
+
   /**
    * @description 分页器
    */
@@ -58,7 +63,6 @@ const ProTable: React.FC<ProTableProps> = (props: ProTableProps) => {
     action,
     toolBar,
     pagination,
-    initpageSize,
     onPageChange,
     onReset,
     ...rest
@@ -78,27 +82,29 @@ const ProTable: React.FC<ProTableProps> = (props: ProTableProps) => {
       tempColumns.unshift({
         title: '操作',
         key: 'option',
-        align: 'center',
         fixed: 'left',
+        width: 60,
         render: (text: string, record: any, index: number) => {
           return (
-            <Dropdown
-              menu={{
-                items: action(record)?.map((item: any, index: number) => ({
-                  key: index,
-                  label: item,
-                })),
-              }}
-              placement="bottomLeft"
-              key={`space${index}`}
-            >
-              <a
-                onClick={(e) => e.preventDefault()}
-                style={{ fontSize: '20px', color: '#000' }}
-              >
-                ...
-              </a>
-            </Dropdown>
+            <Space key={`space${index}`}>{action(record)}</Space>
+
+            // <Dropdown
+            //   menu={{
+            //     items: action(record)?.map((item: any, index: number) => ({
+            //       key: index,
+            //       label: item,
+            //     })),
+            //   }}
+            //   placement="bottomLeft"
+            //   key={`space${index}`}
+            // >
+            //   <a
+            //     onClick={(e) => e.preventDefault()}
+            //     className="mnotable-action"
+            //   >
+            //     ...
+            //   </a>
+            // </Dropdown>
           );
         },
       });
@@ -106,35 +112,18 @@ const ProTable: React.FC<ProTableProps> = (props: ProTableProps) => {
     return tempColumns;
   }, [propsColumns, rest?.dataSource, action]);
 
-  const [paginationData, setPpaginationData] = useState<{
-    current: number;
-    pageSize: number;
-    pageNum: number;
-  }>({
-    current: pagination?.current,
-    pageSize: pagination?.pageSize,
-    pageNum: Math.ceil(pagination?.total / pagination?.pageSize),
-  });
-
   useEffect(() => {
-    setPpaginationData((pre) => ({
-      ...pre,
-      pageNum: Math.ceil(pagination?.total / pagination?.pageSize),
-    }));
-  }, [pagination]);
-  const handlePageSizeChange = (e: any) => {
-    if (Number(e.key) !== pagination.pageSize) {
-      setPpaginationData((pre) => ({
-        ...pre,
-        pageSize: Number(e.key),
-        current: 1,
-      }));
-      onPageChange?.({
-        pageSize: Number(e.key),
-        current: 1,
-      });
+    const liElement = document.querySelector('.ant-pagination-simple-pager');
+
+    if (liElement?.textContent) {
+      let textNode = liElement.childNodes[2];
+
+      textNode.nodeValue = `页 共${Math.ceil(
+        pagination?.total / pagination?.pageSize,
+      )}页`;
     }
-  };
+  }, [pagination]);
+
   return (
     <div className={className}>
       {toolBar && (
@@ -155,214 +144,58 @@ const ProTable: React.FC<ProTableProps> = (props: ProTableProps) => {
       )}
       {/* @ts-ignore */}
       <Table rowKey={rowKey} columns={columns} {...rest} pagination={false} />
-      {pagination?.total > 0 && (
-        <div className="mno-pagination">
-          <Button
-            type="text"
-            icon={<VerticalRightOutlined />}
-            onClick={(e) => {
-              e.preventDefault();
-              if (paginationData.current !== 1) {
-                setPpaginationData((pre) => ({ ...pre, current: 1 }));
-                onPageChange({
-                  pageSize: paginationData?.pageSize,
-                  current: 1,
-                });
-              }
-            }}
-          />
-          <Button
-            type="text"
-            icon={<LeftOutlined />}
-            onClick={(e) => {
-              e.preventDefault();
-              const { current } = paginationData;
-              const newCurrent = current - 1 < 1 ? 1 : current - 1;
-              if (current - 1 > 0) {
-                setPpaginationData((pre) => ({ ...pre, current: newCurrent }));
 
-                onPageChange({
-                  pageSize: pagination?.pageSize,
-                  current: newCurrent,
-                });
-              }
-            }}
-          />
-          <InputNumber
-            min={1}
-            controls={false}
-            formatter={(value: any) =>
-              value ? Math.floor(Number(value)).toString() : ''
-            }
-            value={paginationData.current}
-            onChange={(val: any) => {
-              setPpaginationData((pre) => ({ ...pre, current: val }));
-            }}
-            onBlur={() => {
-              if (!isNull(paginationData.current)) {
-                if (paginationData.current > paginationData.pageNum) {
-                  setPpaginationData((pre) => ({
-                    ...pre,
-                    current: paginationData?.pageNum,
-                  }));
-                  onPageChange({
-                    pageSize: paginationData?.pageSize,
-                    current: paginationData.pageNum,
-                  });
-                } else if (paginationData.current < 1) {
-                  setPpaginationData((pre) => ({
-                    ...pre,
-                    current: 1,
-                  }));
-                  onPageChange({
-                    pageSize: paginationData?.pageSize,
-                    current: 1,
-                  });
-                } else {
-                  onPageChange({
-                    pageSize: paginationData?.pageSize,
-                    current: paginationData.current,
-                  });
-                }
-              } else {
-                setPpaginationData((pre) => ({
-                  ...pre,
-                  current: 1,
-                }));
-                onPageChange({
-                  pageSize: paginationData?.pageSize,
-                  current: 1,
-                });
-              }
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !isNull(paginationData.current)) {
-                if (paginationData.current > paginationData.pageNum) {
-                  setPpaginationData((pre) => ({
-                    ...pre,
-                    current: paginationData?.pageNum,
-                  }));
-                  onPageChange({
-                    pageSize: paginationData?.pageSize,
-                    current: paginationData.pageNum,
-                  });
-                } else if (paginationData.current < 1) {
-                  setPpaginationData((pre) => ({
-                    ...pre,
-                    current: 1,
-                  }));
-                  onPageChange({
-                    pageSize: paginationData?.pageSize,
-                    current: 1,
-                  });
-                } else {
-                  onPageChange({
-                    pageSize: paginationData?.pageSize,
-                    current: paginationData.current,
-                  });
-                }
-              } else if (e.key === 'Enter' && isNull(paginationData.current)) {
-                setPpaginationData((pre) => ({
-                  ...pre,
-                  current: 1,
-                }));
-                onPageChange({
-                  pageSize: paginationData?.pageSize,
-                  current: 1,
-                });
-              }
-            }}
-            style={{ width: '48px' }}
-          />
-          <span style={{ paddingLeft: '5px', fontSize: '14px' }}>
-            页&ensp;共{paginationData.pageNum}页
-          </span>
-          <Button
-            type="text"
-            icon={<RightOutlined />}
-            onClick={(e) => {
-              e.preventDefault();
-
-              if (paginationData.current + 1 <= paginationData?.pageNum) {
-                setPpaginationData((pre) => ({
-                  ...pre,
-                  current: paginationData.current + 1,
-                }));
-                onPageChange?.({
-                  pageSize: paginationData?.pageSize,
-                  current: paginationData?.current + 1,
-                });
-              }
-            }}
-          />
-          <Button
-            type="text"
-            icon={<VerticalLeftOutlined />}
-            onClick={(e) => {
-              e.preventDefault();
-
-              if (paginationData.current !== paginationData.pageNum) {
-                setPpaginationData((pre) => ({
-                  ...pre,
-                  current: paginationData.pageNum,
-                }));
-                onPageChange?.({
-                  pageSize: pagination?.pageSize,
-                  current: paginationData.pageNum,
-                });
-              }
-            }}
-          />
-          <span style={{ paddingLeft: '20px', fontSize: '14px' }}>
-            共{pagination.total}条
-          </span>
-          <Dropdown
-            menu={{
-              items: [
-                {
-                  key: '10',
-                  label: '10条/页',
-                  onClick: (e) => handlePageSizeChange(e),
-                },
-                {
-                  key: '20',
-                  label: '20条/页',
-                  onClick: (e) => handlePageSizeChange(e),
-                },
-                {
-                  key: '50',
-                  label: '50条/页',
-                  onClick: (e) => handlePageSizeChange(e),
-                },
-              ],
-            }}
-            placement="top"
-          >
-            <Button
-              type="text"
-              onClick={(e) => e.preventDefault()}
-              style={{ fontSize: '14px' }}
-            >
-              {pagination?.pageSize}条/页
-              <DownOutlined />
-            </Button>
-          </Dropdown>
-
-          <Button
-            icon={<ReloadOutlined />}
-            style={{ marginLeft: '5px' }}
-            onClick={(e) => {
-              e.preventDefault();
-              setPpaginationData((pre) => ({
-                ...pre,
-                current: 1,
-                pageSize: initpageSize,
-              }));
-              onReset();
-            }}
-          />
-        </div>
-      )}
+      <div className="mno-pagination-test">
+        <Button
+          className="pre-btn"
+          type="text"
+          size="small"
+          icon={<VerticalRightOutlined />}
+          disabled={pagination?.current <= 1}
+          onClick={(e) => {
+            e.preventDefault();
+            onPageChange({ pageSize: pagination?.pageSize, current: 1 });
+          }}
+        />
+        <Pagination
+          simple
+          total={pagination?.total}
+          current={pagination?.current}
+          pageSize={pagination?.pageSize}
+          onChange={(page, pageSize) => {
+            onPageChange({ pageSize, current: page });
+          }}
+          showSizeChanger
+          showTotal={(total) => `共${total}条`}
+          pageSizeOptions={[10, 20, 50]}
+        />
+        <Button
+          type="text"
+          className="next-btn"
+          icon={<VerticalLeftOutlined />}
+          disabled={
+            pagination?.current >=
+            Math.ceil(pagination?.total / pagination?.pageSize)
+          }
+          size="small"
+          onClick={(e) => {
+            e.preventDefault();
+            onPageChange({
+              pageSize: pagination?.pageSize,
+              current: Math.ceil(pagination?.total / pagination?.pageSize),
+            });
+          }}
+        />
+        <Button
+          className="reset-btn"
+          icon={<ReloadOutlined />}
+          style={{ marginLeft: '5px' }}
+          onClick={(e) => {
+            e.preventDefault();
+            onReset();
+          }}
+        />
+      </div>
     </div>
   );
 };

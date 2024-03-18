@@ -1,0 +1,245 @@
+/** 分页 */
+
+.new-mno-pagination {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 4.074vh;
+  font-size: 14px !important;
+  padding-top: 10px;
+}
+
+.new-mno-pagination .ant-pagination {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: 4.074vh;
+  right: 44px;
+}
+
+.new-mno-pagination > span {
+  position: absolute;
+  right: 0;
+}
+
+/* selector */
+.new-mno-pagination .ant-select-selection-search-input {
+  caret-color: transparent;
+}
+
+.new-mno-pagination .ant-select {
+  display: flex;
+  align-items: center;
+}
+
+.new-mno-pagination .ant-select-selector {
+  border: 1px solid rgba(0, 0, 0, 10%) !important;
+  box-shadow: none !important;
+  min-width: 70px;
+  min-height: 34px;
+  border-radius: 21px;
+  width: 3.65vw !important;
+  height: 4.074vh !important;
+  background: rgba(255, 255, 255, 50%);
+}
+
+.new-mno-pagination .ant-select-selection-item {
+  padding-left: 0.52vw !important;
+}
+
+/* 共/条 */
+.new-mno-pagination .ant-pagination-total-text {
+  position: absolute;
+  width: 100px;
+  text-align: right;
+  right: 80px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+/* btn */
+.ant-pagination-item-link > span {
+  font-size: 15px;
+  font-weight: 900;
+  position: absolute;
+  top: 20%;
+  left: 30%;
+}
+
+.new-mno-pagination .next-btn {
+  position: absolute;
+  right: 225px;
+  top: 35%;
+  width: 33px !important;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.new-mno-pagination .ant-pagination-next {
+  position: absolute;
+  right: 215px;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+}
+
+/* 共/页 */
+.new-mno-pagination .ant-pagination-simple-pager {
+  position: absolute;
+  right: 243px;
+  text-align: center;
+  min-width: 185px;
+  height: 4.074vh !important;
+  display: flex;
+  align-items: center;
+}
+
+.new-mno-pagination .ant-pagination-slash {
+  display: none;
+}
+
+.ant-pagination-simple-pager > input {
+  border: 1px solid rgba(0, 0, 0, 10%) !important;
+  border-radius: 22px !important;
+  background: rgba(255, 255, 255, 50%);
+  box-shadow: none !important;
+  min-width: 80px;
+  height: 4.074vh !important;
+  min-height: 34px;
+}
+
+.new-mno-pagination .ant-pagination-prev {
+  position: absolute;
+  right: 430px;
+}
+
+.new-mno-pagination .pre-btn {
+  position: absolute;
+  right: 515px;
+  top: 35%;
+  width: 33px !important;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/**  table */
+
+.new-mno-table {
+  padding: 0 20px 1.667vh !important;
+  border-radius: 2.08vw;
+  overflow: hidden;
+  border: 1px solid #fff;
+  background: rgba(255, 255, 255, 50%) !important;
+}
+
+.ant-table {
+  background-color: transparent !important;
+}
+
+.ant-table-thead > tr > th {
+  background: none !important;
+  border: none !important;
+  color: #b7b7b7 !important;
+  font-weight: 400 !important;
+}
+
+.ant-table-thead > tr > th::before {
+  display: none !important;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr > td {
+  border: none !important;
+}
+
+.odd-table-row .ant-table-cell {
+  background-color: #f3f4fb !important;
+}
+
+.odd-table-row .ant-table-cell-fix-left {
+  background-color: #f3f4fb !important;
+}
+
+.odd-table-row .ant-table-cell:first-child {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+.odd-table-row .ant-table-cell:last-child {
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.even-table-row .ant-table-cell {
+  background: none !important;
+}
+
+.mnotable-action {
+  padding-left: 0.42vw;
+  padding-right: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100% !important;
+  height: 5px;
+  font-weight: 700;
+  cursor: pointer;
+  padding-bottom: 5px;
+}
+
+.mnotable-action:hover {
+  color: #4a70ff !important;
+}
+
+.new-mno-table
+.ant-table
+.ant-table-tbody
+> tr:nth-child(odd)
+.ant-table-cell-fix-left {
+  background-color: #fbfbfb !important;
+}
+
+.new-mno-table .ant-table .ant-table-thead > tr > th:first-child {
+  background-color: #fbfbfb !important;
+}
+
+.ant-table-content {
+  transform: translate(-10px, -2px);
+}
+
+/* tab */
+.toolbar {
+  display: flex;
+  height: 6.296vh !important;
+  min-height: 55px;
+  padding: 1.389vh 0.2vw 1vh !important;
+}
+
+.toolbar .ant-tabs-nav::before {
+  border-bottom: none !important;
+}
+
+.toolbar .ant-tabs-tab {
+  color: #b7b7b7;
+  font-size: 16px;
+}
+
+.toolbar .ant-tabs-ink-bar {
+  bottom: 6px !important;
+}
+
+.toolbar .ant-tabs-tab-active span {
+  color: black;
+  font-weight: 500 !important;
+}
+
+.toolbar .ant-tabs-tab span {
+  font-weight: 400 !important;
+}
+
+
+

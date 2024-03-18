@@ -1,0 +1,35 @@
+
+.rotate-image {
+  transition: transform 0.5s; /* 设置过渡效果持续时间为0.5秒 */
+}
+
+.rotate-image.active {
+  transform: rotate(360deg); /* 点击后旋转360度 */
+}
+
+.more-filter-btn .ant-btn-icon {
+  margin-inline-end: 0.2vw !important;
+}
+
+
+.new-mno-input {
+  width: 14.58vw;
+  min-width: 200px;
+  border-radius: 28px;
+  border: 1px solid white !important;
+  background: rgba(255, 255, 255, 50%) !important;
+  padding: 6px !important;
+  height: 5.185vh;
+  min-height: 45px;
+}
+
+.new-mno-input input {
+  background: transparent !important;
+}
+
+.new-mno-input-img {
+  width: 2.2vw;
+  height: 2.2vw;
+  min-height: 24px;
+  min-width: 24px;
+}
